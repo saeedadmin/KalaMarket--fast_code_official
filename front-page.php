@@ -5,25 +5,7 @@
 
 get_header();
 
-$assets              = kalamarket_template_asset_url( 'assets/' );
-$search_taxonomy     = taxonomy_exists( 'product_cat' ) ? 'product_cat' : 'category';
-$search_dropdown_args = array(
-    'show_option_all' => taxonomy_exists( 'product_cat' ) ? __( 'همه دسته ها', 'kalamarket' ) : __( 'همه دسته‌ها', 'kalamarket' ),
-    'name'            => $search_taxonomy === 'product_cat' ? 'product_cat' : 'cat',
-    'taxonomy'        => $search_taxonomy,
-    'orderby'         => 'name',
-    'hierarchical'    => true,
-    'hide_empty'      => false,
-    'class'           => 'right',
-    'value_field'     => 'slug',
-    'echo'            => false,
-);
-
-$search_dropdown = wp_dropdown_categories( $search_dropdown_args );
-
-if ( $search_taxonomy === 'category' ) {
-    $search_dropdown = str_replace( "name='cat'", "name='cat'", $search_dropdown );
-}
+$assets = kalamarket_template_asset_url( 'assets/' );
 
 ?>
 
@@ -49,16 +31,6 @@ if ( $search_taxonomy === 'category' ) {
                                         <button class="btn btn-search" type="submit">
                                             <img src="<?php echo esc_url( $assets . 'images/search.png' ); ?>" alt="search">
                                         </button>
-                                        <div class="search-filter">
-                                            <div class="form-ui">
-                                                <div class="custom-select-ui">
-                                                    <?php
-                                                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Safe output from wp_dropdown_categories.
-                                                    echo $search_dropdown;
-                                                    ?>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </form>
                                 <div class="search-result">
@@ -103,19 +75,23 @@ if ( $search_taxonomy === 'category' ) {
                 </div>
             </div>
         </section>
+        <div class="clearfix"></div>
         <nav class="header-main-nav">
             <div class="d-block">
-                <?php
-                wp_nav_menu(
-                    array(
-                        'theme_location' => 'primary',
-                        'menu_id'        => 'primary-menu',
-                        'container'      => false,
-                        'menu_class'     => 'menu-ul mega-menu-level-one',
-                        'walker'         => class_exists( 'KalaMarket_Mega_Menu_Walker' ) ? new KalaMarket_Mega_Menu_Walker() : null,
-                    )
-                );
-                ?>
+                <div class="align-items-center">
+                    <?php
+                    wp_nav_menu(
+                        array(
+                            'theme_location' => 'primary',
+                            'menu_id'        => 'primary-menu',
+                            'container'      => false,
+                            'menu_class'     => 'menu-ul mega-menu-level-one',
+                            'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                            'walker'         => class_exists( 'KalaMarket_Mega_Menu_Walker' ) ? new KalaMarket_Mega_Menu_Walker() : null,
+                        )
+                    );
+                    ?>
+                </div>
             </div>
         </nav>
     </div>
@@ -124,11 +100,6 @@ if ( $search_taxonomy === 'category' ) {
 
 <div class="front-page-content">
     <?php
-    while ( have_posts() ) {
-        the_post();
-        the_content();
-    }
-
     get_template_part( 'template-parts/frontpage/slider' );
     get_template_part( 'template-parts/frontpage/product-amazing' );
     get_template_part( 'template-parts/frontpage/adplacement-row' );

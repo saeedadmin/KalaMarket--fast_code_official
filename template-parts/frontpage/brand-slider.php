@@ -6,12 +6,14 @@
 $assets = kalamarket_template_asset_url( 'assets/' );
 
 $brands = array(
-    'brand/brand1.jpg',
-    'brand/brand2.jpg',
-    'brand/brand3.jpg',
-    'brand/brand4.jpg',
-    'brand/brand5.jpg',
-    'brand/brand6.jpg',
+    'brand/shahab.png',
+    'brand/adata.png',
+    'brand/huawei.png',
+    'brand/nokia.png',
+    'brand/panasonic.png',
+    'brand/parskhazar.png',
+    'brand/samsung.png',
+    'brand/xvison.png',
 );
 
 if ( empty( $brands ) ) {
